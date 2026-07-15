@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>班級重要行程公告欄</title>
+    <title>班級重要行程與校園公告欄</title>
     <style>
         /* 全域樣式設定 */
         :root {
@@ -12,6 +12,7 @@
             --tag-holiday: #fbc2c4;   /* 放假標籤 */
             --tag-exam: #ffe599;      /* 考試標籤 */
             --tag-activity: #c9daf8;  /* 活動標籤 */
+            --tag-announcement: #d1f2d9; /* 校園公告標籤（粉綠） */
             --text-color: #4a4a4a;
             --bg-color: #f8f9fa;
         }
@@ -26,7 +27,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -34,119 +35,185 @@
         /* 頁首設計 */
         header {
             text-align: center;
-            padding: 30px 0 20px 0;
+            padding: 30px 0 25px 0;
         }
 
         header h1 {
             color: var(--primary-color);
             margin-bottom: 8px;
-            font-size: 24px;
+            font-size: 26px;
         }
 
         header p {
             color: #7a7a7a;
-            font-size: 14px;
+            font-size: 15px;
             margin: 0;
         }
 
+        /* 雙欄版面配置 */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr; /* 左邊行程稍寬，右邊公告稍窄 */
+            gap: 25px;
+            align-items: start;
+        }
+
+        /* 區塊共同樣式 */
+        .section-box {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        .section-title {
+            font-size: 18px;
+            color: var(--primary-color);
+            border-bottom: 2px solid #f1f3f5;
+            padding-bottom: 10px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ==================== 1. 重要行程區 ==================== */
         /* 篩選按鈕區 */
         .filter-container {
             display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 25px;
+            gap: 8px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
         }
 
         .filter-btn {
             border: none;
-            background-color: #ffffff;
+            background-color: #f1f3f5;
             color: var(--text-color);
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 6px 12px;
+            border-radius: 15px;
             cursor: pointer;
-            font-size: 14px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            font-size: 13px;
             transition: all 0.2s ease;
         }
 
         .filter-btn:hover, .filter-btn.active {
             background-color: var(--primary-color);
             color: white;
-            transform: translateY(-1px);
         }
 
-        /* 行程卡片列表 */
         .schedule-list {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
 
         .schedule-card {
-            background-color: #ffffff;
-            border-radius: 12px;
-            padding: 20px;
+            border-bottom: 1px solid #f1f3f5;
+            padding-bottom: 12px;
             display: flex;
             align-items: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            border-left: 6px solid var(--primary-color);
-            transition: transform 0.2s ease;
         }
 
-        .schedule-card:hover {
-            transform: translateY(-2px);
+        .schedule-card:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
         }
 
-        /* 日期區塊 */
         .event-date {
-            min-width: 80px;
+            min-width: 65px;
             text-align: center;
-            margin-right: 20px;
+            margin-right: 15px;
             border-right: 1px solid #eeeeee;
-            padding-right: 20px;
+            padding-right: 15px;
         }
 
         .event-date .month {
-            font-size: 13px;
+            font-size: 12px;
             color: #8a8a8a;
             display: block;
-            text-transform: uppercase;
         }
 
         .event-date .day {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
             color: var(--primary-color);
             line-height: 1.1;
         }
 
-        /* 內容區塊 */
         .event-content {
             flex-grow: 1;
         }
 
         .event-title {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             margin: 0 0 5px 0;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
         .event-desc {
-            font-size: 14px;
+            font-size: 13px;
             color: #666666;
             margin: 0;
         }
 
+        /* ==================== 2. 校園公告區 ==================== */
+        .announcement-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .announcement-item {
+            border-left: 3px solid var(--accent-color);
+            padding-left: 12px;
+            margin-bottom: 5px;
+        }
+
+        .announcement-meta {
+            font-size: 11px;
+            color: #999;
+            margin-bottom: 4px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .announcement-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin: 0 0 4px 0;
+            color: #333;
+        }
+
+        .announcement-desc {
+            font-size: 13px;
+            color: #666;
+            margin: 0;
+        }
+
+        /* 外部連結按鈕 (如果公告需要點擊連結下載檔案或看官網) */
+        .announcement-link {
+            display: inline-block;
+            font-size: 12px;
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        .announcement-link:hover {
+            text-decoration: underline;
+        }
+
         /* 分類標籤樣式 */
         .tag {
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 12px;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
             font-weight: normal;
         }
 
@@ -154,21 +221,19 @@
         .tag-exam { background-color: var(--tag-exam); color: #d68f00; }
         .tag-activity { background-color: var(--tag-activity); color: #2980b9; }
 
-        /* RWD 響應式手機版優化 */
-        @media (max-width: 576px) {
-            .schedule-card {
-                flex-direction: column;
-                align-items: flex-start;
-                border-left: 4px solid var(--primary-color);
+        /* RWD 手機版自動變成單欄 */
+        @media (max-width: 768px) {
+            .main-layout {
+                grid-template-columns: 1fr;
             }
 
             .event-date {
                 border-right: none;
                 border-bottom: 1px dashed #eeeeee;
                 padding-right: 0;
-                padding-bottom: 10px;
+                padding-bottom: 5px;
                 margin-right: 0;
-                margin-bottom: 12px;
+                margin-bottom: 8px;
                 width: 100%;
                 text-align: left;
                 display: flex;
@@ -176,8 +241,9 @@
                 gap: 5px;
             }
 
-            .event-date .day {
-                font-size: 22px;
+            .schedule-card {
+                flex-direction: column;
+                align-items: flex-start;
             }
         }
     </style>
@@ -186,58 +252,109 @@
 
 <div class="container">
     <header>
-        <h1>重要行程公告</h1>
-        <p>各位家長好，本頁面將即時更新班級與學校的重要活動日程，敬請留意。</p>
+        <h1>班級重要行程與公告欄</h1>
+        <p>親愛的家長您好，本網頁提供即時的班級行程與校園重要通知，歡迎多加利用！</p>
     </header>
 
-    <div class="filter-container">
-        <button class="filter-btn active" onclick="filterEvents('all')">顯示全部</button>
-        <button class="filter-btn" onclick="filterEvents('holiday')">放假通知</button>
-        <button class="filter-btn" onclick="filterEvents('exam')">考試日程</button>
-        <button class="filter-btn" onclick="filterEvents('activity')">班級活動</button>
-    </div>
-
-    <div class="schedule-list">
-
-        <div class="schedule-card" data-category="holiday">
-            <div class="event-date">
-                <span class="month">9 月</span>
-                <span class="day">28</span>
+    <!-- 雙欄內容區 -->
+    <div class="main-layout">
+        
+        <!-- 左邊：重要行程（含篩選器） -->
+        <div class="section-box">
+            <h2 class="section-title">📅 班級行程表</h2>
+            
+            <!-- 篩選按鈕 -->
+            <div class="filter-container">
+                <button class="filter-btn active" onclick="filterEvents('all')">全部</button>
+                <button class="filter-btn" onclick="filterEvents('holiday')">放假</button>
+                <button class="filter-btn" onclick="filterEvents('exam')">考試</button>
+                <button class="filter-btn" onclick="filterEvents('activity')">活動</button>
             </div>
-            <div class="event-content">
-                <h3 class="event-title">
-                    教師節放假一天
-                    <span class="tag tag-holiday">放假通知</span>
-                </h3>
-                <p class="event-desc">適逢教師節，當日學校放假一天，請家長留意學童安全與作息規劃。</p>
+
+            <div class="schedule-list">
+                <!-- 行程 1 -->
+                <div class="schedule-card" data-category="holiday">
+                    <div class="event-date">
+                        <span class="month">9 月</span>
+                        <span class="day">28</span>
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">
+                            教師節放假一天
+                            <span class="tag tag-holiday">放假通知</span>
+                        </h3>
+                        <p class="event-desc">適逢教師節，當日學校放假一天，請家長留意學童作息規劃。</p>
+                    </div>
+                </div>
+
+                <!-- 行程 2 -->
+                <div class="schedule-card" data-category="activity">
+                    <div class="event-date">
+                        <span class="month">10 月</span>
+                        <span class="day">15</span>
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">
+                            秋季戶外教育
+                            <span class="tag tag-activity">班級活動</span>
+                        </h3>
+                        <p class="event-desc">前往台北市立動物園，請穿著運動服、攜帶輕便雨具並於早上 08:00 前至教室集合。</p>
+                    </div>
+                </div>
+
+                <!-- 行程 3 -->
+                <div class="schedule-card" data-category="exam">
+                    <div class="event-date">
+                        <span class="month">11 月</span>
+                        <span class="day">05</span>
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">
+                            期中定期評量
+                            <span class="tag tag-exam">考試日程</span>
+                        </h3>
+                        <p class="event-desc">11/5～11/6 為期中考，考試科目包含國、數、自、社，請孩子提早準備。</p>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="schedule-card" data-category="activity">
-            <div class="event-date">
-                <span class="month">10 月</span>
-                <span class="day">15</span>
-            </div>
-            <div class="event-content">
-                <h3 class="event-title">
-                    秋季戶外教育
-                    <span class="tag tag-activity">班級活動</span>
-                </h3>
-                <p class="event-desc">目的地為台北市立動物園，請孩子於當天穿著運動服、攜帶輕便雨具與水壺，並於早上 08:00 前至教室集合。</p>
-            </div>
-        </div>
+        <!-- 右邊：校園公告 -->
+        <div class="section-box">
+            <h2 class="section-title">📢 校園與處室公告</h2>
+            <div class="announcement-list">
+                
+                <!-- 公告 1 -->
+                <div class="announcement-item">
+                    <div class="announcement-meta">
+                        <span>📅 2026/09/01</span>
+                        <span>🏷️ 教務處</span>
+                    </div>
+                    <h3 class="announcement-title">新學期課後社團報名開始</h3>
+                    <p class="announcement-desc">本學期課後社團將於今日起開放線上報名，截止日為下週三。有意報名的同學請儘速至學校官網報名。</p>
+                    <a href="https://example.school.edu.tw" class="announcement-link" target="_blank">🔗 點此前往報名系統</a>
+                </div>
 
-        <div class="schedule-card" data-category="exam">
-            <div class="event-date">
-                <span class="month">11 月</span>
-                <span class="day">05</span>
-            </div>
-            <div class="event-content">
-                <h3 class="event-title">
-                    期中定期評量
-                    <span class="tag tag-exam">考試日程</span>
-                </h3>
-                <p class="event-desc">11/5(二)～11/6(三) 為期中考，考試科目包含國語、數學、自然、社會。請孩子提早複習準備。</p>
+                <!-- 公告 2 -->
+                <div class="announcement-item">
+                    <div class="announcement-meta">
+                        <span>📅 2026/08/30</span>
+                        <span>🏷️ 衛生組</span>
+                    </div>
+                    <h3 class="announcement-title">秋季流感疫苗接種意願調查</h3>
+                    <p class="announcement-desc">今日已發放流感疫苗接種意願書，無論同意與否，皆請家長簽名後於本週五前由學童交回給導師。</p>
+                </div>
+
+                <!-- 公告 3 -->
+                <div class="announcement-item">
+                    <div class="announcement-meta">
+                        <span>📅 2026/08/25</span>
+                        <span>🏷️ 學務處</span>
+                    </div>
+                    <h3 class="announcement-title">開學日校車路線與時間調整公告</h3>
+                    <p class="announcement-desc">因應校門口周邊道路施工，部分校車路線與接送時間有微調，詳細乘車時間請參考學校最新公告附件。</p>
+                </div>
+
             </div>
         </div>
 
@@ -245,14 +362,12 @@
 </div>
 
 <script>
-    // 分類篩選功能
+    // 行程分類篩選
     function filterEvents(category) {
-        // 更新按鈕樣式
         const buttons = document.querySelectorAll('.filter-btn');
         buttons.forEach(btn => btn.classList.remove('active'));
         event.target.classList.add('active');
 
-        // 篩選卡片
         const cards = document.querySelectorAll('.schedule-card');
         cards.forEach(card => {
             if (category === 'all' || card.getAttribute('data-category') === category) {
